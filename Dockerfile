@@ -124,6 +124,7 @@ RUN set -ex \
 		zip \
 		imap \
 		calendar \
+		gettext \
 		exif \
 		sockets \
 		xsl \
