@@ -6,11 +6,6 @@ ENV NGINX_VERSION 1.15.3-1~stretch
 ENV NJS_VERSION   1.15.3.0.2.3-1~stretch
 
 RUN set -x \
-	&&echo "deb http://mirrors.aliyun.com/debian stretch main" > /etc/apt/sources.list \
-	&&echo "deb http://mirrors.aliyun.com/debian-security stretch/updates main" >> /etc/apt/sources.list \
-	&&echo "deb http://mirrors.aliyun.com/debian stretch-updates main" >> /etc/apt/sources.list
-
-RUN set -x \
 	&& apt-get update \
 	&& apt-get upgrade \
 	--no-install-recommends --no-install-suggests -y \
@@ -115,6 +110,7 @@ RUN set -ex \
 		libc-client2007e-dev \
 		libxslt1-dev \
 		supervisor \
+		slapd \
 	&&docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
 	&&docker-php-ext-install \
 		gd \
@@ -177,6 +173,23 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY itop-nginx.conf /etc/nginx/conf.d/
 COPY supervisord_fpm.conf /etc/supervisor/conf.d/
 COPY supervisord_nginx.conf /etc/supervisor/conf.d/
+COPY slapd.preseed /tmp/slapd.preseed
+RUN set -ex \
+	&&apt-get update \
+	&&apt-get install -y --no-install-recommends --no-install-suggests \
+		mariadb-client \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libldap2-dev \
+		libpng-dev \
+		libxml2-dev \
+		unzip \
+		zlib1g-dev \
+		libkrb5-dev \
+		libc-client2007e-dev \
+		libxslt1-dev \
+		supervisor \
+		slapd \
 
 VOLUME "/var/www/html"
 

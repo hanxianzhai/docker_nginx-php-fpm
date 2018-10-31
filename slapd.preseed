@@ -1,0 +1,2 @@
+slapd slapd/Administrator_password password 
+slapd slapd/Administrator_password_again password
