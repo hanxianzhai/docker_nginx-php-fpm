@@ -199,6 +199,6 @@ ENV Administrator_password=""
 
 STOPSIGNAL SIGTERM
 
-# CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
 
 # ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord/supervisord.conf"]
