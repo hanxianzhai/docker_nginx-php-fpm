@@ -185,7 +185,7 @@ RUN set -ex \
 
 VOLUME "/var/www/html"
 
-EXPOSE 80 443
+EXPOSE 80 389 443 636 
 
 EVN Administrator_password=""
 
