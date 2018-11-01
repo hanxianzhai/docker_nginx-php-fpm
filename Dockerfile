@@ -187,7 +187,8 @@ RUN set -ex \
 	&& cd ldap-account-manager-6.5 \
 	&& ./configure --with-httpd-group=www-data --with-httpd-user=www-data --with-web-root=/var/www/html \
 	&& make install \
-	&& cd && rm /tmp/*
+	&& cd \
+	&& rm /tmp/*
 
 VOLUME "/var/www/html"
 
