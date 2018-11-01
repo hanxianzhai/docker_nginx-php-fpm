@@ -164,8 +164,8 @@ COPY supervisord_nginx.conf /etc/supervisor/conf.d/
 
 RUN set -ex \
 	&&apt-get update \
-	&&debconf-set-selections <<< 'slapd slapd/password1 password $Administrator_password' \
-	&&debconf-set-selections <<< 'slapd slapd/password2 password $Administrator_password' \
+	&&debconf-set-selections <<< 'slapd slapd/password1 password hanxianzhai' \
+	&&debconf-set-selections <<< 'slapd slapd/password2 password hanxianzhai' \
 	&&apt-get install -y --no-install-recommends --no-install-suggests \
 		supervisor \
 		slapd \
@@ -191,9 +191,7 @@ RUN set -ex \
 
 VOLUME "/var/www/html"
 
-EXPOSE 80 389 443 636 
-
-ENV Administrator_password="hanxianzhai"
+EXPOSE 80 389 443 636
 
 STOPSIGNAL SIGTERM
 
