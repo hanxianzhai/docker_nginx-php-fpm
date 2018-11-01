@@ -121,17 +121,7 @@ RUN set -ex \
 		gettext \
 		exif \
 		sockets \
-		xsl \
-	&& apt-get remove -y \
-		libfreetype6-dev \
-		libjpeg-dev \
-		libldap2-dev \
-		libpng-dev \
-		libxml2-dev \
-		zlib1g-dev \
-		libxslt1-dev \
-	&& apt-get purge -y --auto-remove \
-	&& rm -rf /var/lib/apt/lists/*
+		xsl
 
 RUN set -ex \
 	&& cd /usr/local/etc \
@@ -179,9 +169,17 @@ RUN set -ex \
 	&&apt-get install -y --no-install-recommends --no-install-suggests \
 		supervisor \
 		slapd \
-	&& apt-get purge -y --auto-remove \
-	&& rm -rf /var/lib/apt/lists/*
-
+	&&apt-get remove -y \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libldap2-dev \
+		libpng-dev \
+		libxml2-dev \
+		zlib1g-dev \
+		libxslt1-dev \
+	&&apt-get purge -y --auto-remove \
+	&&rm -rf /var/lib/apt/lists/*
+	
 RUN set -ex \
 	&& curl -L http://prdownloads.sourceforge.net/lam/ldap-account-manager-6.5.tar.bz2?download -o /tmp/ldap-account-manager-6.5.tar.bz2 \
     && cd /tmp \
