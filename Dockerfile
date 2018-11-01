@@ -109,8 +109,6 @@ RUN set -ex \
 		libkrb5-dev \
 		libc-client2007e-dev \
 		libxslt1-dev \
-		supervisor \
-		slapd \
 	&&docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
 	&&docker-php-ext-install \
 		gd \
@@ -170,10 +168,9 @@ RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak \
 COPY php.ini /usr/local/etc/php/
 COPY conf.d/* /usr/local/etc/php/conf.d/
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY itop-nginx.conf /etc/nginx/conf.d/
+COPY lam-nginx.conf /etc/nginx/conf.d/
 COPY supervisord_fpm.conf /etc/supervisor/conf.d/
 COPY supervisord_nginx.conf /etc/supervisor/conf.d/
-# COPY slapd.preseed /tmp/slapd.preseed
 
 RUN set -ex \
 	&&apt-get update \
@@ -182,15 +179,26 @@ RUN set -ex \
 	&&apt-get install -y --no-install-recommends --no-install-suggests \
 		supervisor \
 		slapd \
+	&& apt-get purge -y --auto-remove \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN set -ex \
+	&& curl -L http://prdownloads.sourceforge.net/lam/ldap-account-manager-6.5.tar.bz2?download -o /tmp/ldap-account-manager-6.5.tar.bz2 \
+    && cd /tmp \
+	&& tar xpf ldap-account-manager-6.5.tar.bz2 \
+	&& cd ldap-account-manager-6.5 \
+	&& ./configure --with-httpd-group=www-data --with-httpd-user=www-data --with-web-root=/var/www/html \
+	&& make install \
+	&& cd && rm /tmp/*
 
 VOLUME "/var/www/html"
 
 EXPOSE 80 389 443 636 
 
-EVN Administrator_password=""
+ENV Administrator_password=""
 
 STOPSIGNAL SIGTERM
 
-CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
+# CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
 
 # ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord/supervisord.conf"]
