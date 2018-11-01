@@ -179,7 +179,7 @@ RUN set -ex \
 		libxslt1-dev \
 	&&apt-get purge -y --auto-remove \
 	&&rm -rf /var/lib/apt/lists/*
-	
+
 RUN set -ex \
 	&& curl -L http://prdownloads.sourceforge.net/lam/ldap-account-manager-6.5.tar.bz2?download -o /tmp/ldap-account-manager-6.5.tar.bz2 \
     && cd /tmp \
@@ -193,7 +193,7 @@ VOLUME "/var/www/html"
 
 EXPOSE 80 389 443 636 
 
-ENV Administrator_password=""
+ENV Administrator_password="hanxianzhai"
 
 STOPSIGNAL SIGTERM
 
