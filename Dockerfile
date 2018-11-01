@@ -173,27 +173,21 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY itop-nginx.conf /etc/nginx/conf.d/
 COPY supervisord_fpm.conf /etc/supervisor/conf.d/
 COPY supervisord_nginx.conf /etc/supervisor/conf.d/
-COPY slapd.preseed /tmp/slapd.preseed
+# COPY slapd.preseed /tmp/slapd.preseed
+
 RUN set -ex \
 	&&apt-get update \
+	&&debconf-set-selections <<< 'slapd slapd/password1 password $Administrator_password' \
+	&&debconf-set-selections <<< 'slapd slapd/password2 password $Administrator_password' \
 	&&apt-get install -y --no-install-recommends --no-install-suggests \
-		mariadb-client \
-		libfreetype6-dev \
-		libjpeg-dev \
-		libldap2-dev \
-		libpng-dev \
-		libxml2-dev \
-		unzip \
-		zlib1g-dev \
-		libkrb5-dev \
-		libc-client2007e-dev \
-		libxslt1-dev \
 		supervisor \
 		slapd \
 
 VOLUME "/var/www/html"
 
 EXPOSE 80 443
+
+EVN Administrator_password=""
 
 STOPSIGNAL SIGTERM
 
