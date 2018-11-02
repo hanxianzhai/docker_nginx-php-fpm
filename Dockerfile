@@ -182,13 +182,13 @@ RUN set -ex \
 
 RUN set -ex \
     && cd /tmp \
-	&& curl -L https://sourceforge.net/projects/lam/files/latest/download -o ldap-account-manager.tar.bz2 \
-	&& tar xpf ldap-account-manager.tar.bz2 \
-	&& cd ldap-account-manager \
+    && curl -L -k http://prdownloads.sourceforge.net/lam/ldap-account-manager-6.5.tar.bz2?download -o ldap-account-manager-6.5.tar.bz2 \
+	&& tar xpf ldap-account-manager-6.5.tar.bz2 \
+	&& cd ldap-account-manager-6.5 \
 	&& ./configure --with-httpd-group=www-data --with-httpd-user=www-data --with-web-root=/var/www/html \
 	&& make install \
 	&& cd \
-	&& rm /tmp/*
+	&& rm -rf /tmp/*
 
 VOLUME "/var/www/html"
 
